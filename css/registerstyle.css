@@ -1,0 +1,21 @@
+.pad{
+    padding: 10%;
+}
+
+body{
+    background-image: url("../images/background.jfif");
+}
+
+#footer{
+    position:sticky;
+    bottom:0;
+    width:100%;
+    height:60px;   /* Height of the footer */
+    color: white;
+    background-color: black;
+    padding: 0.5em 0 0.5em 0.5em;
+}
+
+a{
+    text-decoration: none;
+}
