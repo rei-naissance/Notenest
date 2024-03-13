@@ -113,8 +113,6 @@
 </div>
 
 <script>
-    //Test
-    // Blabl ablabalabl
     //This was a random attempt at using jquery (from StackOverflow)
 
     // $(document).ready(function() {
