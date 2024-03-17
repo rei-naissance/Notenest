@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+::placeholder {
+    color: #ECF8F8;
+    opacity: 0.5;
+}
+
+body {
+    background-color: #232C33;
+    font-family: 'Poppins', serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.alert {
+    display: none;
+}
+
+.fg-margin-top {
+    margin-top: 10px;
+}
+
+.display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    -webkit-box-shadow: 0 0 10px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px 5px rgba(0,0,0,0.2);
+}
+
+.register-display-image {
+    background-image: url(../images/login-texture.jpg);
+    width: 20vw;
+    background-size: cover;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.register-form {
+    background-color: #F7F7F9;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 500px;
+    padding: 5%;
+}
+
+.email-disclaimer {
+    opacity: 0.5;
+}
+
+.gender-select{
+    height: 20px;
+}
+
+/*#footer {*/
+/*    position:sticky;*/
+/*    bottom:0;*/
+/*    width:100%;*/
+/*    height:60px;   !* Height of the footer *!*/
+/*    color: white;*/
+/*    background-color: black;*/
+/*    padding: 0.5em 0 0.5em 0.5em;*/
+/*}*/
