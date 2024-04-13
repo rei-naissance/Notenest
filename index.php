@@ -12,25 +12,25 @@
 </head>
 <body>
 
-    <?php
-        include ("includes/header.php");
-    ?>
+<?php
+include ("includes/header.php");
+?>
 
-    <section id="hero" class="min-vh-100 d-flex align-items-center text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1>Welcome to <span style="font-family: 'Modern Antiqua', serif">Notenest</span></h1>
-                    <h5 class="mt-2 mb-2">A lovable miniature notes project.</h5>
-                    <a class="btn btn-light mt-2" href="register.php">Get Started</a>
-                </div>
+<section id="hero" class="min-vh-100 d-flex align-items-center text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Welcome to <span style="font-family: 'Modern Antiqua', serif">Notenest</span></h1>
+                <h5 class="mt-2 mb-2">A lovable miniature notes project.</h5>
+                <a class="btn btn-light mt-2" href="note.php">Get Started</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <?php
-        include ("includes/footer.php");
-    ?>
+<?php
+include ("includes/footer.php");
+?>
 
 </body>
 </html>
