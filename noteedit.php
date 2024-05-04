@@ -27,22 +27,34 @@ include ("includes/header.php");
                         <button type="submit" class="btn btn-primary" name="edit" style="margin-left: 1110px; margin-bottom: 5px">Edit</button>
                         <input type="text" class="form-control" name="note" id="note" placeholder="Nest id number.">
                         <?php
-                        if(isset($_POST["edit"])){
-                            $noteID = $_POST["note"];
-                            $sql = "SELECT * FROM tblnote WHERE noteid = '$noteID'";
-                            $result = $connection->query($sql);
-                            if($result -> num_rows > 0){
-                                $text = "";
-                                $title = "";
-                                while($row = $result->fetch_assoc()){
-                                    $title=$row["noteTitle"];
-                                    $text=$row["noteContent"];
+                            $text = "";
+                            $title = "";
+                            $noteID = "";
+                            if(isset($_POST["edit"])){
+                                $noteID = $_POST["note"];
+                                $sql = "SELECT * FROM tblnote WHERE noteid = '$noteID'";
+                                $result = $connection->query($sql);
+                                if($result -> num_rows > 0){
+                                    while($row = $result->fetch_assoc()){
+                                        $title=$row["noteTitle"];
+                                        $text=$row["noteContent"];
+                                    }
                                 }
                             }
-                        }
+
+                            if(isset($_POST["submit"])){
+                                $noteID = $_POST["noteID"];
+                                $title = $_POST["title"];
+                                $text = $_POST["note-text"];
+                                $sql = "UPDATE tblnote SET noteTitle = '$title', noteContent = '$text' WHERE noteid = '$noteID'";
+                                if(mysqli_query($connection, $sql)){
+                                    echo "<script>window.location.href='notedatabase.php'</script>";
+                                }
+                            }
                         ?>
                     </div>
                     <label for="title" class="form-label">Note Title</label>
+                    <input type="hidden" name="noteID" value="<?php echo $noteID; ?>">
                     <input type="text" class="form-control" name="title" id="title" value="<?php echo isset($title)?$title:'';?>"/>
                     <label for="note-text" class="form-label"></label>
                     <textarea class="form-control" name="note-text" id="note-text" rows="3"><?php echo isset($text)?$text:'';?></textarea>
