@@ -1,0 +1,15 @@
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-header .card-title {
+    flex: 1;
+}
+
+.fav-button {
+    margin-left: auto;
+    margin-right: 0;
+    padding: 0;
+}

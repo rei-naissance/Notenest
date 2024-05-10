@@ -31,6 +31,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href = "css/styles.css">
+    <link rel="stylesheet" href = "css/notedisplay.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <title>Notes</title>
@@ -64,17 +65,18 @@ include ("includes/header.php");
             <div class="card clickable-div note" data-id="<?php echo $result['noteid'];?>">
                 <div class="card-body">
                     <div class="mb-3">
-                        <p class="card-id"><?php echo $result['noteid']?></p>
-                        <h5 class="card-title"><?php echo $result['noteTitle']?></h5>
+                        <div class="note-header">
+                            <h5 class="card-title"><?php echo $result['noteTitle']?></h5>
+                            <form method="post" action="favorite.php" class="fav-button">
+                                <input type="hidden" name="noteId" value="<?php echo $result['noteid'];?>">
+                                <?php if ($result['isFavorite'] == 0): ?>
+                                    <button type="submit" name="setFav" class="btn btn-primary">&#9734;</button> <!-- on -->
+                                <?php else: ?>
+                                    <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button> <!-- off -->
+                                <?php endif; ?>
+                            </form>
+                        </div>
                         <p class="card-text"><?php echo $result['noteContent']?></p>
-                        <form method="post" action="favorite.php">
-                            <input type="hidden" name="noteId" value="<?php echo $result['noteid'];?>">
-                            <?php if ($result['isFavorite'] == 0): ?>
-                                <button type="submit" name="setFav" class="btn btn-primary">&#9734; <!-- Unicode star --></button>
-                            <?php else: ?>
-                                <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button> <!-- Unicode filled star -->
-                            <?php endif; ?>
-                        </form>
                     </div>
                 </div>
             </div>
