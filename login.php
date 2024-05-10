@@ -1,6 +1,8 @@
 <?php
     include 'connect.php';
 
+    session_start();
+
     if(isset($_POST['submit'])) {
 
         $isError = false;
@@ -16,6 +18,8 @@
         if ($row) {
             $hash = $row['password'];
             if (password_verify($pword, $hash)) {
+                $acctid = $row['acctid'];
+                $_SESSION['acctid'] = $acctid;
                 echo "<script language='javascript'>
                         window.location.href = 'index.php';
                      </script>";

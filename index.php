@@ -22,7 +22,7 @@ include ("includes/header.php");
             <div class="col-12">
                 <h1>Welcome to <span style="font-family: 'Modern Antiqua', serif">Notenest</span></h1>
                 <h5 class="mt-2 mb-2">A lovable miniature notes project.</h5>
-                <a class="btn btn-light mt-2" href="note.php">Get Started</a>
+                <a class="btn btn-light mt-2" href="notedatabase.php">Get Started</a>
             </div>
         </div>
     </div>

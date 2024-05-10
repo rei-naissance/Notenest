@@ -1,18 +1,44 @@
 <?php
-include 'connect.php';
+    include 'connect.php';
 
-if(isset($_POST['submit'])) {
-    $noteTitle = $_POST['title'];
-    $noteText = $_POST['note-text'];
-    $status = 0;
-    $favorite = 0;
-    $noteCategory = $_POST['categ'];
-    $date = date('Y-m-d H:i:s');
-    $lastEdit = date('Y-m-d H:i:s');
+    session_start();
 
-    $note = "Insert into tblnote(notedate, isFavorite, notecategory, notestatus, lastmodified, noteContent, noteTitle) values('". $date ."' , '". $favorite ."' , '". $noteCategory ."' , '". $status ."' , '". $lastEdit ."' , '". $noteText ."' , '". $noteTitle ."')";
-    mysqli_query($connection, $note);
-}
+    if(isset($_POST['submit'])) {
+        $acc = $_SESSION['acctid'];
+        $nest = $_POST['nestgroup'];
+        $noteTitle = $_POST['title'];
+        $noteText = $_POST['note-text'];
+        $status = 0;
+        $favorite = 0;
+        $noteCategory = $_POST['categ'];
+        $date = date('Y-m-d H:i:s');
+        $lastEdit = date('Y-m-d H:i:s');
+
+        $note = "Insert into tblnote(acct_id, nest_id, notedate, isFavorite, notecategory, notestatus, lastmodified, noteContent, noteTitle) values('". $acc ."' , '". $nest ."' , '". $date ."' , '". $favorite ."' , '". $noteCategory ."' , '". $status ."' , '". $lastEdit ."' , '". $noteText ."' , '". $noteTitle ."')";
+        if(mysqli_query($connection, $note)) {
+
+//            $nest_query = "SELECT presentcategory FROM tblnest WHERE nestid = '$nest'";
+//            $nest_result = mysqli_query($connection, $nest_query);
+//            $nest_row = mysqli_fetch_assoc($nest_result);
+//            $present_category = $nest_row['presentcategory'];
+//
+//            // Append the new category to the presentcategory
+//            if (!empty($present_category)) {
+//                $present_category .= ', ' . $noteCategory;
+//            } else {
+//                $present_category = $noteCategory;
+//            }
+//
+//            // Update tblnest with the updated presentcategory
+//            $update_nest = "UPDATE tblnest SET presentcategory = '$present_category' WHERE nestid = '$nest'";
+//            mysqli_query($connection, $update_nest);
+
+            echo "<script language='javascript'>
+                    window.location.href = 'notedatabase.php';
+                </script>";
+            exit();
+        }
+    }
 ?>
 
 <!doctype html>
@@ -42,6 +68,24 @@ include ("includes/header.php");
                         <label for="categ" class="form-label">Note Category</label>
                         <input type="text" class="form-control" name="categ" id="categ" placeholder="Category">
                     </div>
+                    <label for="nestgroup" class="form-label">Nest</label>
+                    <select name="nestgroup" id="nestgroup">
+                        <option value="" disabled selected>Select...</option>
+                        <?php
+
+                        $acc = $_SESSION['acctid'];
+                        $id = $_GET['id'];
+
+                        $query = "SELECT nestid, nestname FROM tblnest WHERE acct_id = '$acc'";
+                        $result = mysqli_query($connection, $query);
+                        if ($result) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+//                                $selected = ($row['nestid'] == $id) ? 'selected' : '';
+                                echo '<option value="' . $row['nestid'] . '" ' . $selected.'>' . $row['nestname'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
                     <div class="mb-3">
                         <label for="title" class="form-label">Note Title</label>
                         <input type="text" class="form-control" name="title" id="title" placeholder="Title goes here">

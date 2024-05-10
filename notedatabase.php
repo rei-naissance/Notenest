@@ -1,7 +1,26 @@
 <?php
-include 'connect.php';
-    $noteview = $connection->query("SELECT * from tblnote");
-    $nestview = $connection->query("SELECT * from tblnest");
+    include 'connect.php';
+
+    session_start();
+
+    $acc = $_SESSION['acctid'];
+
+    $noteview = $connection->query("SELECT * from tblnote WHERE acct_id = '$acc' AND notestatus = '0' ORDER BY isFavorite DESC");
+    $nestview = $connection->query("SELECT * from tblnest WHERE acct_id = '$acc' AND neststatus = '0'");
+
+    $nest_rows = $nestview->fetch_all(MYSQLI_ASSOC);
+    $note_rows = $noteview->fetch_all(MYSQLI_ASSOC);
+
+    $nest_url = '';
+    $note_url = '';
+
+    if (!empty($nest_rows)) {
+        $nest_url = "nestedit.php?id=" . $nest_rows[0]['nestid'];
+    }
+
+    if (!empty($note_rows)) {
+        $note_url = "noteedit.php?id=" . $note_rows[0]['noteid'];
+    }
 ?>
 
 <!doctype html>
@@ -25,10 +44,11 @@ include ("includes/header.php");
 <section class="min-vh-100 d-flex align-items-center">
     <div class="container">
         <a class="btn btn-dark mb-3" href="nest.php">Add a nest</a>
-        <?php while($nestResult = $nestview->fetch_assoc()):?>
-            <div class="card">
+        <?php foreach ($nest_rows as $nestResult): ?>
+            <div class="card clickable-div nest" data-id="<?php echo $nestResult['nestid'];?>">
                 <div class="card-body">
                     <div class="mb-3">
+                        <p class="card-id"><?php echo $nestResult['nestid']?></p>
                         <h5 class="card-title"><?php echo $nestResult['nestname']?></h5>
                         <h6 class="card-text"><?php echo $nestResult['presentcategory']?></h6>
                         <p class="card-text"><?php echo $nestResult['nestdescription']?></p>
@@ -36,22 +56,32 @@ include ("includes/header.php");
                 </div>
             </div>
             <br>
-        <?php endwhile;?>
+        <?php endforeach; ?>
     </div>
     <div class="container">
         <a class="btn btn-dark mb-3" href="note.php">Add a note</a>
-        <?php while($result = $noteview->fetch_assoc()):?>
-            <div class="card">
+        <?php foreach ($note_rows as $result): ?>
+            <div class="card clickable-div note" data-id="<?php echo $result['noteid'];?>">
                 <div class="card-body">
                     <div class="mb-3">
+                        <p class="card-id"><?php echo $result['noteid']?></p>
                         <h5 class="card-title"><?php echo $result['noteTitle']?></h5>
                         <p class="card-text"><?php echo $result['noteContent']?></p>
+                        <form method="post" action="favorite.php">
+                            <input type="hidden" name="noteId" value="<?php echo $result['noteid'];?>">
+                            <?php if ($result['isFavorite'] == 0): ?>
+                                <button type="submit" name="setFav" class="btn btn-primary">&#9734; <!-- Unicode star --></button>
+                            <?php else: ?>
+                                <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button> <!-- Unicode filled star -->
+                            <?php endif; ?>
+                        </form>
                     </div>
                 </div>
             </div>
             <br>
-        <?php endwhile;?>
+        <?php endforeach; ?>
     </div>
 </section>
+    <script src="js/loader.js"></script>
 </body>
 </html>

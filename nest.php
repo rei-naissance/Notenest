@@ -1,14 +1,22 @@
 <?php
-include 'connect.php';
+    include 'connect.php';
 
-if(isset($_POST['submit'])) {
-    $name = $_POST['nest'];
-    $desc = $_POST['nest-text'];
-    $prescateg = "None";
+    session_start();
 
-    $nest = "Insert into tblnest(nestname, nestdescription, presentcategory) values('". $name ."' , '". $desc ."' , '". $prescateg ."')";
-    mysqli_query($connection, $nest);
-}
+    if(isset($_POST['submit'])) {
+        $acc = $_SESSION['acctid'];
+        $name = $_POST['nest'];
+        $desc = $_POST['nest-text'];
+        $prescateg = "None";
+
+        $nest = "Insert into tblnest(acct_id, nestname, nestdescription, presentcategory) values('". $acc ."' , '". $name ."' , '". $desc ."' , '". $prescateg ."')";
+        if(mysqli_query($connection, $nest)){
+            echo "<script language='javascript'>
+                    window.location.href = 'notedatabase.php';
+                </script>";
+            exit();
+        }
+    }
 ?>
 
 <!doctype html>

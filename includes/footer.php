@@ -31,8 +31,8 @@
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link" href="contact.php">
-                        Contact</a>
+                    <a class="nav-link" href="adminreport.php">
+                        Admin Report</a>
                 </li>
                 <li class="nav-item mx-1">
                     <a class="nav-link">
