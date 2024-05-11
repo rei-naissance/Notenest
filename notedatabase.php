@@ -5,7 +5,7 @@
 
     $acc = $_SESSION['acctid'];
 
-    $noteview = $connection->query("SELECT * from tblnote WHERE acct_id = '$acc' AND notestatus = '0' ORDER BY isFavorite DESC");
+    $noteview = $connection->query("SELECT * from tblnote WHERE acct_id = '$acc' AND notestatus = '0' AND nest_id IS NULL ORDER BY isFavorite DESC, lastmodified DESC");
     $nestview = $connection->query("SELECT * from tblnest WHERE acct_id = '$acc' AND neststatus = '0'");
 
     $nest_rows = $nestview->fetch_all(MYSQLI_ASSOC);
@@ -39,51 +39,56 @@
 <body>
 
 <?php
-include ("includes/header.php");
+    include ("includes/header.php");
 ?>
 
 <section class="min-vh-100 d-flex align-items-center">
     <div class="container">
-        <a class="btn btn-dark mb-3" href="nest.php">Add a nest</a>
-        <?php foreach ($nest_rows as $nestResult): ?>
-            <div class="card clickable-div nest" data-id="<?php echo $nestResult['nestid'];?>">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <p class="card-id"><?php echo $nestResult['nestid']?></p>
-                        <h5 class="card-title"><?php echo $nestResult['nestname']?></h5>
-                        <h6 class="card-text"><?php echo $nestResult['presentcategory']?></h6>
-                        <p class="card-text"><?php echo $nestResult['nestdescription']?></p>
-                    </div>
-                </div>
-            </div>
-            <br>
-        <?php endforeach; ?>
-    </div>
-    <div class="container">
-        <a class="btn btn-dark mb-3" href="note.php">Add a note</a>
-        <?php foreach ($note_rows as $result): ?>
-            <div class="card clickable-div note" data-id="<?php echo $result['noteid'];?>">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="note-header">
-                            <h5 class="card-title"><?php echo $result['noteTitle']?></h5>
-                            <form method="post" action="favorite.php" class="fav-button">
-                                <input type="hidden" name="noteId" value="<?php echo $result['noteid'];?>">
-                                <?php if ($result['isFavorite'] == 0): ?>
-                                    <button type="submit" name="setFav" class="btn btn-primary">&#9734;</button> <!-- on -->
-                                <?php else: ?>
-                                    <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button> <!-- off -->
-                                <?php endif; ?>
-                            </form>
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-dark mb-3" href="nest.php">Add a nest</a>
+                <?php foreach ($nest_rows as $nestResult): ?>
+                    <div class="card clickable-div nest" data-id="<?php echo $nestResult['nestid']; ?>">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <p class="card-id"><?php echo $nestResult['nestid']?></p>
+                                <h5 class="card-title"><?php echo $nestResult['nestname']?></h5>
+                                <h6 class="card-text"><?php echo $nestResult['presentcategory']?></h6>
+                                <p class="card-text"><?php echo $nestResult['nestdescription']?></p>
+                            </div>
                         </div>
-                        <p class="card-text"><?php echo $result['noteContent']?></p>
                     </div>
-                </div>
+                    <br>
+                <?php endforeach; ?>
             </div>
-            <br>
-        <?php endforeach; ?>
+            <div class="col">
+                <a class="btn btn-dark mb-3" href="note.php">Add a note</a>
+                <?php foreach ($note_rows as $result): ?>
+                    <div class="card clickable-div note" data-id="<?php echo $result['noteid']; ?>">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="note-header">
+                                    <h5 class="card-title"><?php echo $result['noteTitle']?></h5>
+                                    <form method="post" action="favorite.php" class="fav-button">
+                                        <input type="hidden" name="noteId" value="<?php echo $result['noteid']; ?>">
+                                        <?php if ($result['isFavorite'] == 0): ?>
+                                            <button type="submit" name="setFav" class="btn btn-primary">&#9734;</button>
+                                        <?php else: ?>
+                                            <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button>
+                                        <?php endif; ?>
+                                    </form>
+                                </div>
+                                <p class="card-text"><?php echo $result['noteContent']?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                <?php endforeach; ?>
+            </div>
+        </div>
     </div>
 </section>
+
     <script src="js/loader.js"></script>
 </body>
 </html>

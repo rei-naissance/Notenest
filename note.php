@@ -5,7 +5,7 @@
 
     if(isset($_POST['submit'])) {
         $acc = $_SESSION['acctid'];
-        $nest = $_POST['nestgroup'];
+        $nest = isset($_POST['nestgroup']) ? $_POST['nestgroup'] : 0;
         $noteTitle = $_POST['title'];
         $noteText = $_POST['note-text'];
         $status = 0;

@@ -23,6 +23,6 @@ include 'connect.php';
     }
     $statement = $connection->prepare($sql);
     $statement->execute();
-    header("Location: notedatabase.php");
+    header("Location: " . $_SERVER['HTTP_REFERER']);
     exit();
 ?>

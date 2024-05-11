@@ -28,8 +28,10 @@ if(isset($_GET['id'])){
         $newtitle = $_POST["note"];
         $newtext = $_POST["note-text"];
         $newnest = $_POST["nestgroup"];
+        $lastEdit = date('Y-m-d H:i:s');
         $newcateg = $_POST["note-categ"];
-        $updatesql ="UPDATE tblnote SET noteContent = '$newtext', notecategory = '$newcateg', nest_id = '$newnest', noteTitle = '$newtitle' WHERE noteid = '$id' AND acct_id = '$acc'";
+
+        $updatesql ="UPDATE tblnote SET noteContent = '$newtext', notecategory = '$newcateg', nest_id = '$newnest', noteTitle = '$newtitle', lastmodified = '$lastEdit' WHERE noteid = '$id' AND acct_id = '$acc'";
         if(mysqli_query($connection, $updatesql)){
             echo "<script language='javascript'>
                     window.location.href = 'notedatabase.php';
@@ -85,12 +87,25 @@ include ("includes/header.php");
                                 $acc = $_SESSION['acctid'];
                                 $id = $_GET['id'];
 
-                                $query = "SELECT nestid, nestname FROM tblnest WHERE acct_id = '$acc'";
-                                $result = mysqli_query($connection, $query);
-                                if ($result) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $selected = ($row['nestid'] == $id) ? 'selected' : '';
-                                        echo '<option value="' . $row['nestid'] . '" ' . $selected.'>' . $row['nestname'] . '</option>';
+                                // getting nest
+                                $note_query = "SELECT nest_id FROM tblnote WHERE noteid = '$id' AND acct_id = '$acc'";
+                                $note_result = mysqli_query($connection, $note_query);
+                                $current_nest_id = 0; // Default value
+
+                                if ($note_result && mysqli_num_rows($note_result) > 0) {
+                                    $note_row = mysqli_fetch_assoc($note_result);
+                                    $current_nest_id = $note_row['nest_id'];
+                                }
+
+                                $nest_query = "SELECT nestid, nestname FROM tblnest WHERE acct_id = '$acc' AND neststatus = 0";
+                                $nest_result = mysqli_query($connection, $nest_query);
+
+                                $noNestValue = NULL;
+                                echo '<option value="' . $noNestValue . '"' . ($current_nest_id === $noNestValue ? ' selected' : '') . '>No Nest</option>';
+                                if ($nest_result && mysqli_num_rows($nest_result) > 0) {
+                                    while ($nest_row = mysqli_fetch_assoc($nest_result)) {
+                                        $selected = ($nest_row['nestid'] == $current_nest_id) ? 'selected' : '';
+                                        echo '<option value="' . $nest_row['nestid'] . '" ' . $selected . '>' . $nest_row['nestname'] . '</option>';
                                     }
                                 }
                             ?>
