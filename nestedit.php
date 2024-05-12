@@ -24,19 +24,9 @@
         if(isset($_POST["submit"])){
             $newtitle = $_POST["nest"];
             $newtext = $_POST["nest-text"];
+            $lastEdit = date('Y-m-d H:i:s');
 
-            $categsql = "SELECT notecategory FROM tblnote WHERE nestid = '$id' AND acct_id = '$acc'";
-            $categres = mysqli_query($connection, $categsql);
-
-            if($categres) {
-                $categories = array();
-
-                while($row = mysqli_fetch_array($categres)) $categories[] = $row['notecategory'];
-
-                $categString = implode(', ', $categories);
-            }
-
-            $updatesql ="UPDATE tblnest SET nestdescription = '$newtext', nestname = '$newtitle', presentcategory = '$categString' WHERE nestid = '$id' AND acct_id = '$acc'";
+            $updatesql ="UPDATE tblnest SET nestdescription = '$newtext', nestname = '$newtitle', lastmodified = '$lastEdit' WHERE nestid = '$id' AND acct_id = '$acc'";
             if(mysqli_query($connection, $updatesql)){
                 echo "<script language='javascript'>
                     window.location.href = 'notedatabase.php';
@@ -102,7 +92,7 @@ include ("includes/header.php");
         <div class="card">
             <?php if (empty($note_rows)): ?>
                 <div class="card-body">
-                    <p>No notes inside group.</p>
+                    <p>No notes inside nest.</p>
                 </div>
             <?php else: ?>
                 <?php foreach ($note_rows as $result): ?>
@@ -114,9 +104,9 @@ include ("includes/header.php");
                                     <form method="post" action="inner_favorite.php" class="fav-button">
                                         <input type="hidden" name="noteId" value="<?php echo $result['noteid']; ?>">
                                         <?php if ($result['isFavorite'] == 0): ?>
-                                            <button type="submit" name="setFav" class="btn btn-primary">&#9734;</button>
+                                            <button type="submit" name="setFav" class="btn rounder">&#9734;</button>
                                         <?php else: ?>
-                                            <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button>
+                                            <button type="submit" name="unsetFav" class="btn rounder">&#9733;</button>
                                         <?php endif; ?>
                                     </form>
                                 </div>

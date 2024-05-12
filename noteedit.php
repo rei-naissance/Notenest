@@ -76,11 +76,11 @@ include ("includes/header.php");
                 <form method="POST" id="noteForm">
                     <div class="mb-3">
                         <label for="note" class="form-label">Note Title</label>
-                        <input type="text" class="form-control" name="note" id="note" placeholder="Title for note goes here." value="<?php echo (isset($title))?$title:'';?>">
+                        <input type="text" class="form-control mb-3" name="note" id="note" placeholder="Title for note goes here." value="<?php echo (isset($title))?$title:'';?>">
                         <label for="note-categ" class="form-label">Note Category</label>
-                        <input type="text" class="form-control" name="note-categ" id="note-categ" placeholder="Category for notes goes here." value="<?php echo (isset($categ))?$categ:'';?>">
+                        <input type="text" class="form-control mb-3" name="note-categ" id="note-categ" placeholder="Category for notes goes here." value="<?php echo (isset($categ))?$categ:'';?>">
                         <label for="nestgroup" class="form-label">Nest</label>
-                        <select name="nestgroup" id="nestgroup">
+                        <select class="form-select mb-3" name="nestgroup" id="nestgroup">
                             <option value="" disabled selected>Select...</option>
                             <?php
 

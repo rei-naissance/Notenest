@@ -6,7 +6,7 @@
     $acc = $_SESSION['acctid'];
 
     $noteview = $connection->query("SELECT * from tblnote WHERE acct_id = '$acc' AND notestatus = '0' AND nest_id IS NULL ORDER BY isFavorite DESC, lastmodified DESC");
-    $nestview = $connection->query("SELECT * from tblnest WHERE acct_id = '$acc' AND neststatus = '0'");
+    $nestview = $connection->query("SELECT * from tblnest WHERE acct_id = '$acc' AND neststatus = '0' ORDER BY isFavorite DESC, lastmodified DESC");
 
     $nest_rows = $nestview->fetch_all(MYSQLI_ASSOC);
     $note_rows = $noteview->fetch_all(MYSQLI_ASSOC);
@@ -51,9 +51,17 @@
                     <div class="card clickable-div nest" data-id="<?php echo $nestResult['nestid']; ?>">
                         <div class="card-body">
                             <div class="mb-3">
-                                <p class="card-id"><?php echo $nestResult['nestid']?></p>
-                                <h5 class="card-title"><?php echo $nestResult['nestname']?></h5>
-                                <h6 class="card-text"><?php echo $nestResult['presentcategory']?></h6>
+                                <div class="note-header">
+                                    <h5 class="card-title"><?php echo $nestResult['nestname']?></h5>
+                                    <form method="post" action="favorite.php" class="fav-button">
+                                        <input type="hidden" name="nestId" value="<?php echo $nestResult['nestid']; ?>">
+                                        <?php if ($nestResult['isFavorite'] == 0): ?>
+                                            <button type="submit" name="setNestFav" class="btn rounder">&#9734;</button>
+                                        <?php else: ?>
+                                            <button type="submit" name="unsetNestFav" class="btn rounder">&#9733;</button>
+                                        <?php endif; ?>
+                                    </form>
+                                </div>
                                 <p class="card-text"><?php echo $nestResult['nestdescription']?></p>
                             </div>
                         </div>
@@ -72,9 +80,9 @@
                                     <form method="post" action="favorite.php" class="fav-button">
                                         <input type="hidden" name="noteId" value="<?php echo $result['noteid']; ?>">
                                         <?php if ($result['isFavorite'] == 0): ?>
-                                            <button type="submit" name="setFav" class="btn btn-primary">&#9734;</button>
+                                            <button type="submit" name="setFav" class="btn rounder">&#9734;</button>
                                         <?php else: ?>
-                                            <button type="submit" name="unsetFav" class="btn btn-primary">&#9733;</button>
+                                            <button type="submit" name="unsetFav" class="btn rounder">&#9733;</button>
                                         <?php endif; ?>
                                     </form>
                                 </div>

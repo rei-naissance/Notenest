@@ -7,9 +7,10 @@
         $acc = $_SESSION['acctid'];
         $name = $_POST['nest'];
         $desc = $_POST['nest-text'];
-        $prescateg = "None";
+        $date = date('Y-m-d H:i:s');
+        $lastEdit = date('Y-m-d H:i:s');
 
-        $nest = "Insert into tblnest(acct_id, nestname, nestdescription, presentcategory) values('". $acc ."' , '". $name ."' , '". $desc ."' , '". $prescateg ."')";
+        $nest = "Insert into tblnest(acct_id, nestname, nestdescription, datemade, lastmodified) values('". $acc ."' , '". $name ."' , '". $desc ."' , '". $date ."' , '". $lastEdit ."')";
         if(mysqli_query($connection, $nest)){
             echo "<script language='javascript'>
                     window.location.href = 'notedatabase.php';

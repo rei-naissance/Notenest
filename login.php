@@ -21,7 +21,7 @@
                 $acctid = $row['acctid'];
                 $_SESSION['acctid'] = $acctid;
                 echo "<script language='javascript'>
-                        window.location.href = 'index.php';
+                        window.location.href = 'notedatabase.php';
                      </script>";
                 exit();
             } else {

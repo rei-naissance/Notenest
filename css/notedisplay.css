@@ -13,3 +13,9 @@
     margin-right: 0;
     padding: 0;
 }
+
+.rounder {
+    border-radius: 50%;
+    background-color: #000000;
+    color: #ffffff;
+}

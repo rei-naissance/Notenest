@@ -69,7 +69,7 @@ include ("includes/header.php");
                         <input type="text" class="form-control" name="categ" id="categ" placeholder="Category">
                     </div>
                     <label for="nestgroup" class="form-label">Nest</label>
-                    <select name="nestgroup" id="nestgroup">
+                    <select class="form-select mb-3" name="nestgroup" id="nestgroup">
                         <option value="" disabled selected>Select...</option>
                         <?php
 
