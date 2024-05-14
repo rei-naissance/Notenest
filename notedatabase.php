@@ -39,7 +39,7 @@
 <body>
 
 <?php
-    include ("includes/header.php");
+    include ("includes/header-with-sidebar.php");
 ?>
 
 <section class="min-vh-100 d-flex align-items-center">

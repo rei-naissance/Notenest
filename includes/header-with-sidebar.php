@@ -19,7 +19,24 @@
                 <li class="nav-item ms-lg-3">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
+                <li class="nav-item ms-lg-3">
+                    <a class="nav-link" data-bs-toggle="offcanvas" href="#side" role="button" aria-controls="offcanvasExample">...<Panel></Panel></a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="side" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+    </div>
+    <div class="offcanvas-body">
+        <div class="d-flex justify-content-end">
+            <a href="adminreport.php" class="btn">Admin report</a>
+        </div>
+    </div>
+</div>
+
