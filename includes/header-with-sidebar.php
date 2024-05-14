@@ -29,13 +29,18 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="side" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+            <img src="images/temporary-nest.svg" height="50" width="50" alt=""/>
+            <a class="logo navbar-brand ms-lg-3" href="notedatabase.php">NOTENEST</a>
+        </h5>
+
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 
     </div>
     <div class="offcanvas-body">
-        <div class="d-flex justify-content-end">
+        <div class="d-flex flex-column align-items-right">
             <a href="adminreport.php" class="btn">Admin report</a>
+            <a href="logout.php" class="btn">Logout</a>
         </div>
     </div>
 </div>
