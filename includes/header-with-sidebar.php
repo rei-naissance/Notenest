@@ -40,7 +40,7 @@
     <div class="offcanvas-body">
         <div class="d-flex flex-column align-items-right">
             <a href="adminreport.php" class="btn">Admin report</a>
-            <a href="logout.php" class="btn">Logout</a>
+            <a href="logout.php" class="btn" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
         </div>
     </div>
 </div>

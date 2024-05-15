@@ -6,6 +6,7 @@ clickableDivs.forEach(function(div) {
         // checks if the access is currently for a nest or note
         let destinationUrl = this.classList.contains('nest') ? 'nestedit.php?id=' : 'noteedit.php?id=';
         destinationUrl += id;
+        localStorage.setItem('lastVisitedUrl', destinationUrl);
         window.location.href = destinationUrl;
     });
 });

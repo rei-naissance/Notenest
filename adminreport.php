@@ -6,22 +6,24 @@
              JOIN tbluserprofile up ON ua.acctid = up.userid";
     $result1 = $connection->query($sql1);
 
-    $sql2 = "SELECT ua.acctid, ua.emailadd, ua.username, COUNT(n.noteid) AS note_count
+    $sql2 = "SELECT ua.acctid, ua.emailadd, ua.username, COUNT(CASE WHEN n.noteid IS NOT NULL THEN 1 END) AS note_count
              FROM tbluseraccount ua
-             LEFT JOIN tblnote n ON ua.acctid = n.acct_id
+             LEFT JOIN tblnote n ON ua.acctid = n.acct_id AND n.notestatus = 0
              GROUP BY ua.acctid, ua.emailadd, ua.username";
     $result2 = $connection->query($sql2);
 
     $sql3 = "SELECT ua.username, COUNT(n.noteid) AS note_count
              FROM tbluseraccount ua
              LEFT JOIN tblnote n ON ua.acctid = n.acct_id
+             WHERE n.notestatus = 0
              GROUP BY ua.username
              HAVING note_count >= 5
-             ORDER BY note_count DESC";
+             ORDER BY note_count ASC";
     $result3 = $connection->query($sql3);
 
-    $sql4 = "SELECT n.acct_id, COUNT(n.noteid) AS total_notes 
-             FROM tblnote n";
+$sql4 = "SELECT n.acct_id, COUNT(n.noteid) AS total_notes 
+         FROM tblnote n
+         WHERE n.notestatus = 0";
     $result4 = $connection->query($sql4);
 
     $sql5 = "SELECT n.acct_id, COUNT(n.nestid) AS total_nests
@@ -32,13 +34,25 @@
              FROM tbluseraccount ua";
     $result6 = $connection->query($sql6);
 
-    $sql7 = "SELECT n.nest_id, CEIL(AVG(n.noteid)) AS average_notes_nest
-             FROM tblnote n";
+    $sql7 = "SELECT AVG(NumberofNotes) AS avgNotesPerNest
+             FROM (
+             SELECT nest_id, COUNT(*) AS NumberofNotes
+             FROM tblnote WHERE nest_id IS NOT NULL
+             GROUP BY nest_id
+             ) AS notesPerNest";
     $result7 = $connection->query($sql7);
+    $data = $result7->fetch_assoc();
+    $averageNotesPerNest = $data['avgNotesPerNest'];
 
-    $sql8 = "SELECT n.acct_id, CEIL(AVG(n.noteid)) AS average_notes_account
-             FROM tblnote n";
+    $sql8 = "SELECT AVG(NumberofNotes) AS avgNotesPerAccount
+             FROM (
+             SELECT acct_id, COUNT(*) AS NumberofNotes
+             FROM tblnote
+             GROUP BY acct_id
+             ) AS notesPerAccount";
     $result8 = $connection->query($sql8);
+    $data = $result8->fetch_assoc();
+    $averageNotesPerAccount = $data['avgNotesPerAccount'];
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +69,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Account ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Gender</th>
@@ -66,7 +79,6 @@
         <?php
             while ($row = $result1->fetch_assoc()) {
                 echo "<tr>
-                                <td>{$row['acctid']}</td>
                                 <td>{$row['firstname']}</td>
                                 <td>{$row['lastname']}</td>
                                 <td>{$row['gender']}</td>
@@ -81,7 +93,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Account ID</th>
             <th>Email</th>
             <th>Username</th>
             <th>Notes</th>
@@ -91,7 +102,6 @@
         <?php
             while ($row = $result2->fetch_assoc()) {
                 echo "<tr>
-                                <td>{$row['acctid']}</td>
                                 <td>{$row['emailadd']}</td>
                                 <td>{$row['username']}</td>
                                 <td>{$row['note_count']}</td>
@@ -156,24 +166,20 @@
             <th>Average notes within a nest</th>
         </tr>
         <?php
-            while($row = $result7->fetch_assoc()) {
-                echo"<tr><td>{$row['average_notes_nest']}</td></tr>";
-            }
+            echo "<tr><td>{$averageNotesPerNest}</td></tr>"
         ?>
 
         <tr>
             <th>Average notes within an account</th>
         </tr>
         <?php
-        while($row = $result8->fetch_assoc()) {
-            echo"<tr><td>{$row['average_notes_account']}</td></tr>";
-        }
+            echo"<tr><td>{$averageNotesPerAccount}</td></tr>"
         ?>
         </tbody>
     </table>
     <div>
         <h2>Chart</h2>
-        <img src="images/meta-chart.png">
+        <img src="images/meta-chart-new.png">
     </div>
 </div>
 

@@ -82,7 +82,7 @@ include ("includes/header.php");
                     <div class="mb-3">
                         <a class="btn btn-dark mt-3" href="notedatabase.php">Back</a>
                     </div>
-                    <button type="submit" class="btn btn-primary" name="submit" onclick="return confirm('Are you sure you want to proceed with these changes?')">Save</button>
+                    <button type="submit" class="btn btn-primary" name="submit" onclick="return submitNestConfirm()">Save</button>
                     <button type="submit" class="btn btn-primary" name="delete" onclick="return confirm('Are you sure you want to delete this nest?')">Delete</button>
                 </form>
             </div>
@@ -96,7 +96,7 @@ include ("includes/header.php");
                 </div>
             <?php else: ?>
                 <?php foreach ($note_rows as $result): ?>
-                    <div class="card" data-id="<?php echo $result['noteid']; ?>">
+                    <div class="card clickable-div note" data-id="<?php echo $result['noteid']; ?>">
                         <div class="card-body">
                             <div class="mb-3">
                                 <div class="note-header">
@@ -120,5 +120,8 @@ include ("includes/header.php");
         </div>
     </div>
 </section>
+
+<script src="js/loader.js"></script>
+<script src="js/confirmation.js"></script>
 </body>
 </html>
