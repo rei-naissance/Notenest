@@ -5,7 +5,7 @@
 
     if(isset($_POST['submit'])) {
         $acc = $_SESSION['acctid'];
-        $nest = isset($_POST['nestgroup']) ? $_POST['nestgroup'] : 0;
+        $nest = empty($_POST['nestgroup']) ? NULL : $_POST['nestgroup'];
         $noteTitle = $_POST['title'];
         $noteText = $_POST['note-text'];
         $status = 0;
@@ -14,28 +14,12 @@
         $date = date('Y-m-d H:i:s');
         $lastEdit = date('Y-m-d H:i:s');
 
-        $note = "Insert into tblnote(acct_id, nest_id, notedate, isFavorite, notecategory, notestatus, lastmodified, noteContent, noteTitle) values('". $acc ."' , '". $nest ."' , '". $date ."' , '". $favorite ."' , '". $noteCategory ."' , '". $status ."' , '". $lastEdit ."' , '". $noteText ."' , '". $noteTitle ."')";
-        if(mysqli_query($connection, $note)) {
-
-//            $nest_query = "SELECT presentcategory FROM tblnest WHERE nestid = '$nest'";
-//            $nest_result = mysqli_query($connection, $nest_query);
-//            $nest_row = mysqli_fetch_assoc($nest_result);
-//            $present_category = $nest_row['presentcategory'];
-//
-//            // Append the new category to the presentcategory
-//            if (!empty($present_category)) {
-//                $present_category .= ', ' . $noteCategory;
-//            } else {
-//                $present_category = $noteCategory;
-//            }
-//
-//            // Update tblnest with the updated presentcategory
-//            $update_nest = "UPDATE tblnest SET presentcategory = '$present_category' WHERE nestid = '$nest'";
-//            mysqli_query($connection, $update_nest);
-
+        $stmt = $connection->prepare("INSERT INTO tblnote (acct_id, nest_id, notedate, isFavorite, notecategory, notestatus, lastmodified, noteContent, noteTitle) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sisississ", $acc, $nest, $date, $favorite, $noteCategory, $status, $lastEdit, $noteText, $noteTitle);
+        if($stmt->execute()) {
             echo "<script language='javascript'>
-                    window.location.href = 'notedatabase.php';
-                </script>";
+                window.location.href = 'notedatabase.php';
+            </script>";
             exit();
         }
     }
@@ -80,7 +64,6 @@ include ("includes/header.php");
                         $result = mysqli_query($connection, $query);
                         if ($result) {
                             while ($row = mysqli_fetch_assoc($result)) {
-//                                $selected = ($row['nestid'] == $id) ? 'selected' : '';
                                 echo '<option value="' . $row['nestid'] . '" ' . $selected.'>' . $row['nestname'] . '</option>';
                             }
                         }

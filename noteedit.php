@@ -27,15 +27,19 @@ if(isset($_GET['id'])){
     if(isset($_POST["submit"])){
         $newtitle = $_POST["note"];
         $newtext = $_POST["note-text"];
-        $newnest = $_POST["nestgroup"];
+        $newnest = $_POST["nestgroup"] == "" ? NULL : $_POST["nestgroup"];
         $lastEdit = date('Y-m-d H:i:s');
         $newcateg = $_POST["note-categ"];
 
-        $updatesql ="UPDATE tblnote SET noteContent = '$newtext', notecategory = '$newcateg', nest_id = '$newnest', noteTitle = '$newtitle', lastmodified = '$lastEdit' WHERE noteid = '$id' AND acct_id = '$acc'";
-        if(mysqli_query($connection, $updatesql)){
+        $updatesql = $connection->prepare(
+            "UPDATE tblnote SET noteContent = ?, notecategory = ?, nest_id = IFNULL(?, nest_id), noteTitle = ?, lastmodified = ? WHERE noteid = ? AND acct_id = ?"
+        );
+        $updatesql->bind_param("ssissii", $newtext, $newcateg, $newnest, $newtitle, $lastEdit, $id, $acc);
+
+        if($updatesql->execute()){
             echo "<script language='javascript'>
-                    window.location.href = 'notedatabase.php';
-                </script>";
+                window.location.href = 'notedatabase.php';
+        </script>";
             exit();
         }
     }
@@ -108,6 +112,13 @@ include ("includes/header.php");
                                         echo '<option value="' . $nest_row['nestid'] . '" ' . $selected . '>' . $nest_row['nestname'] . '</option>';
                                     }
                                 }
+
+                                $nestNames = array();
+                                if ($nest_result && mysqli_num_rows($nest_result) > 0) {
+                                    while ($nest_row = mysqli_fetch_assoc($nest_result)) {
+                                        $nestNames[$nest_row['nestid']] = $nest_row['nestname'];
+                                    }
+                                }
                             ?>
                         </select>
                         <label for="note-text" class="form-label"></label>
@@ -116,12 +127,15 @@ include ("includes/header.php");
                     <div class="mb-3">
                         <a class="btn btn-dark mt-3" href="notedatabase.php">Back</a>
                     </div>
-                    <button type="submit" class="btn btn-primary" name="submit" onclick="return confirm('Are you sure you want to proceed with these changes?')">Save</button>
+                    <button type="submit" class="btn btn-primary" name="submit" onclick="return submitConfirm()">Save</button>
                     <button type="submit" class="btn btn-primary" name="delete" onclick="return confirm('Are you sure you want to delete this note?')">Delete</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+<script src="js/confirmation.js"></script>
+
 </body>
 </html>
