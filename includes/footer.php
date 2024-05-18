@@ -22,11 +22,11 @@
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link" href="#hero">
+                    <a class="nav-link" href="index.php">
                         Home</a>
                 </li>
                 <li class="nav-item mx-1">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="aboutus.php">
                         About Us</a>
                 </li>
 
