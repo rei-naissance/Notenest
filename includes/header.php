@@ -17,7 +17,7 @@
                     <a class="nav-link" href="aboutus.php">About</a>
                 </li>
                 <li class="nav-item ms-lg-3">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="contact.php">Contact</a>
                 </li>
             </ul>
         </div>

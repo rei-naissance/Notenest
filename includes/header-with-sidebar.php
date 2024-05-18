@@ -17,7 +17,7 @@
                     <a class="nav-link" href="aboutus.php">About</a>
                 </li>
                 <li class="nav-item ms-lg-3">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="contact.php">Contact</a>
                 </li>
                 <li class="nav-item ms-lg-3">
                     <a class="nav-link" data-bs-toggle="offcanvas" href="#side" role="button" aria-controls="offcanvasExample">...<Panel></Panel></a>
@@ -39,8 +39,8 @@
     </div>
     <div class="offcanvas-body">
         <div class="d-flex flex-column align-items-right">
-            <a href="adminreport.php" class="btn">Admin report</a>
-            <a href="logout.php" class="btn" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
+            <a href="adminreport.php" class="font-change" style="text-decoration: none; color: black;">Admin report</a>
+            <a href="logout.php" class="font-change" style="text-decoration: none; color: black;" onclick="return confirm('Are you sure you want to log out?')">Logout</a>
         </div>
     </div>
 </div>
